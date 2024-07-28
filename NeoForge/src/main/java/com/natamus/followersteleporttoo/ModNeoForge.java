@@ -1,6 +1,7 @@
 package com.natamus.followersteleporttoo;
 
 import com.natamus.collective.check.RegisterMod;
+import com.natamus.collective.check.ShouldLoadCheck;
 import com.natamus.followersteleporttoo.neoforge.config.IntegrateNeoForgeConfig;
 import com.natamus.followersteleporttoo.neoforge.events.NeoForgeTeleportEvent;
 import com.natamus.followersteleporttoo.util.Reference;
@@ -14,6 +15,10 @@ import net.neoforged.fml.event.lifecycle.FMLLoadCompleteEvent;
 public class ModNeoForge {
 	
 	public ModNeoForge(IEventBus modEventBus) {
+		if (!ShouldLoadCheck.shouldLoad(Reference.MOD_ID)) {
+			return;
+		}
+
 		modEventBus.addListener(this::loadComplete);
 
 		setGlobalConstants();
