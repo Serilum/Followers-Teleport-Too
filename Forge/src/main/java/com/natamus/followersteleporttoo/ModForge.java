@@ -1,6 +1,7 @@
 package com.natamus.followersteleporttoo;
 
 import com.natamus.collective.check.RegisterMod;
+import com.natamus.collective.check.ShouldLoadCheck;
 import com.natamus.followersteleporttoo.forge.config.IntegrateForgeConfig;
 import com.natamus.followersteleporttoo.forge.events.ForgeTeleportEvent;
 import com.natamus.followersteleporttoo.util.Reference;
@@ -15,6 +16,10 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 public class ModForge {
 	
 	public ModForge() {
+		if (!ShouldLoadCheck.shouldLoad(Reference.MOD_ID)) {
+			return;
+		}
+
 		IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
 		modEventBus.addListener(this::loadComplete);
 

@@ -1,9 +1,8 @@
 {
   "required": true,
   "minVersion": "0.8",
-  "package": "com.natamus.followersteleporttoo.forge.mixin",
+  "package": "com.natamus.followersteleporttoo.mixin",
   "compatibilityLevel": "JAVA_17",
-  "refmap": "followersteleporttoo_forge.refmap.json",
   "mixins": [
 
   ],
