@@ -1,0 +1,34 @@
+modLoader="javafml"
+loaderVersion="*"
+license="All rights reserved"
+issueTrackerURL="https://github.com/Serilum/.issue-tracker/labels/Mod:%20Followers%20Teleport%20Too"
+logoFile="icon.png"
+
+[[mods]]
+modId="followersteleporttoo"
+version="2.6"
+displayName="Followers Teleport Too"
+displayURL="https://serilum.com/mod/followers-teleport-too"
+authors="Rick South"
+description='''Whenever a player is teleported via a command, their pets will be teleported alongside them.
+'''
+credits='''Thank you very much to my Membership sponsors for supporting the development of this mod:  
+
+Alister, Andrean Olgo, aternosorg, Cherriesaurus, kate1073, Michael W. S., Tyler Behl, XAgent   
+
+If you would like to contribute too, check out https://serilum.com/donate. Appreciate it! <3   
+'''
+
+[[dependencies.followersteleporttoo]]
+    modId="collective"
+    mandatory=true
+    versionRange="[7.86,)"
+    ordering="NONE"
+    side="BOTH"
+
+[[dependencies.followersteleporttoo]]
+    modId="minecraft"
+    mandatory=true
+    versionRange="[1.21.2,1.21.3]"
+    ordering="NONE"
+    side="BOTH"
