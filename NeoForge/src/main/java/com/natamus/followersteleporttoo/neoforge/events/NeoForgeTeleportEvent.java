@@ -5,11 +5,9 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.neoforged.bus.api.EventPriority;
 import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.entity.EntityTeleportEvent;
 import net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent;
 
-@EventBusSubscriber
 public class NeoForgeTeleportEvent {
 	@SubscribeEvent(priority = EventPriority.LOWEST)
 	public static void onPlayerTeleport(EntityTeleportEvent.TeleportCommand e) {
