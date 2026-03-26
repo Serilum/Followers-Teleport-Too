@@ -1,0 +1,55 @@
+{
+  "schemaVersion": 1,
+  "id": "followersteleporttoo",
+  "version": "2.8",
+
+  "name": "Followers Teleport Too",
+  "description": "Whenever a player is teleported via a command, their pets will be teleported alongside them.",
+  "authors": [ "Rick South" ],
+  "contact": {
+    "homepage": "https://serilum.com/mod/followers-teleport-too",
+    "sources": "https://github.com/Serilum/Followers-Teleport-Too",
+    "issues": "https://github.com/Serilum/.issue-tracker/labels/Mod:%20Followers%20Teleport%20Too"
+  },
+
+  "license": "All Right Reserved",
+  "icon": "icon.png",
+
+  "environment": "*",
+  "entrypoints": { "main": [ "com.natamus.followersteleporttoo.ModFabric" ], "modmenu": [ "com.natamus.followersteleporttoo.fabric.config.IntegrateModMenu" ] },
+
+  "depends": {
+    "fabricloader": ">=0.18.0",
+    "fabric-api": "*",
+    "minecraft": ">=26.1",
+    "java": ">=25",
+    "collective": ">=8.16"
+  },
+
+  "custom": {
+    "modmenu": {
+      "links": {
+        "Donate <3" : "https://serilum.com/donate"
+      }
+    }
+  },
+
+  "contributors": [
+	  " ",
+	  "Thank you very much to my Membership sponsors for supporting the development of this mod!",
+	  " ",
+	  "If you would like to contribute too, check out https://serilum.com/donate.",
+	  " ",
+	  "Membership sponsors:",
+	  " Alister",
+	  " Andrean Olgo",
+	  " aternosorg",
+	  " Cherriesaurus",
+	  " Michael W. S.",
+	  " t128",
+	  " Tyler Behl",
+	  " William Innes",
+	  " XAgent",
+	  " ตัวตรึง พระนคร"
+  ]
+}
