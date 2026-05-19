@@ -1,17 +1,17 @@
 package com.natamus.followersteleporttoo.config;
 
-import com.natamus.collective.config.DuskConfig;
 import com.natamus.followersteleporttoo.util.Reference;
 
+import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
-public class ConfigHandler extends DuskConfig {
+public class ConfigHandler {
 	public static HashMap<String, List<String>> configMetaData = new HashMap<String, List<String>>();
 
-	@Entry public static boolean disableFollowerDamageAfterTeleport = true;
-	@Entry(min = 0, max = 86400) public static int durationInSecondsDamageShouldBeDisabled = 20;
+	public static boolean disableFollowerDamageAfterTeleport = true;
+	public static int durationInSecondsDamageShouldBeDisabled = 20;
 
 	public static void initConfig() {
 		configMetaData.put("disableFollowerDamageAfterTeleport", Arrays.asList(
@@ -21,6 +21,13 @@ public class ConfigHandler extends DuskConfig {
 			"How long in seconds damage should be disabled for after a teleport when disableFollowerDamageAfterTeleport is enabled."
 		));
 
-		DuskConfig.init(Reference.NAME, Reference.MOD_ID, ConfigHandler.class);
+		try {
+			Class<?> duskConfigClass = Class.forName("com.natamus.collective.config.DuskConfig");
+			Method initMethod = duskConfigClass.getMethod("init", String.class, String.class, Class.class);
+			initMethod.invoke(null, Reference.NAME, Reference.MOD_ID, ConfigHandler.class);
+		}
+		catch (ReflectiveOperationException | LinkageError ignored) {
+
+		}
 	}
 }

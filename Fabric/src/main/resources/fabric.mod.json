@@ -17,6 +17,7 @@
 
   "environment": "*",
   "entrypoints": { "main": [ "com.natamus.followersteleporttoo.ModFabric" ], "modmenu": [ "com.natamus.followersteleporttoo.fabric.config.IntegrateModMenu" ] },
+  "mixins": [ "followersteleporttoo.fabric.mixins.json" ],
 
   "depends": {
     "fabricloader": ">=0.18.0",
