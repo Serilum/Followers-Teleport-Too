@@ -1,20 +1,15 @@
 package com.natamus.followersteleporttoo;
 
-import com.natamus.collective.check.RegisterMod;
-import com.natamus.collective.check.ShouldLoadCheck;
-import com.natamus.collective.fabric.callbacks.CollectiveEntityEvents;
-import com.natamus.followersteleporttoo.events.TeleportEvent;
 import com.natamus.followersteleporttoo.util.Reference;
 import net.fabricmc.api.ModInitializer;
-import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.level.Level;
+
+import java.lang.reflect.Method;
 
 public class ModFabric implements ModInitializer {
 	
 	@Override
 	public void onInitialize() {
-		if (!ShouldLoadCheck.shouldLoad(Reference.MOD_ID)) {
+		if (!shouldLoad()) {
 			return;
 		}
 
@@ -23,20 +18,36 @@ public class ModFabric implements ModInitializer {
 
 		loadEvents();
 
-		RegisterMod.register(Reference.NAME, Reference.MOD_ID, Reference.VERSION, Reference.ACCEPTED_VERSIONS);
+		registerMod();
 	}
 
 	private void loadEvents() {
-		CollectiveEntityEvents.ON_ENTITY_TELEPORT_COMMAND.register((Level world, Entity entity, double targetX, double targetY, double targetZ) -> {
-			TeleportEvent.onPlayerTeleport(world, entity, targetX, targetY, targetZ);
-			return true;
-		});
-		CollectiveEntityEvents.ON_LIVING_DAMAGE_CALC.register((Level world, Entity entity, DamageSource damageSource, float damageAmount) -> {
-			return TeleportEvent.onFollowerDamage(world, entity, damageSource, damageAmount);
-		});
+
 	}
 
 	private static void setGlobalConstants() {
 
+	}
+
+	private static boolean shouldLoad() {
+		try {
+			Class<?> shouldLoadCheckClass = Class.forName("com.natamus.collective.check.ShouldLoadCheck");
+			Method shouldLoadMethod = shouldLoadCheckClass.getMethod("shouldLoad", String.class);
+			return (Boolean)shouldLoadMethod.invoke(null, Reference.MOD_ID);
+		}
+		catch (ReflectiveOperationException ignored) {
+			return true;
+		}
+	}
+
+	private static void registerMod() {
+		try {
+			Class<?> registerModClass = Class.forName("com.natamus.collective.check.RegisterMod");
+			Method registerMethod = registerModClass.getMethod("register", String.class, String.class, String.class, String.class);
+			registerMethod.invoke(null, Reference.NAME, Reference.MOD_ID, Reference.VERSION, Reference.ACCEPTED_VERSIONS);
+		}
+		catch (ReflectiveOperationException ignored) {
+
+		}
 	}
 }
