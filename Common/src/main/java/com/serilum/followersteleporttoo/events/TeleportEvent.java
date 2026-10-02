@@ -1,6 +1,6 @@
-package com.natamus.followersteleporttoo.events;
+package com.serilum.followersteleporttoo.events;
 
-import com.natamus.followersteleporttoo.config.ConfigHandler;
+import com.serilum.followersteleporttoo.config.ConfigHandler;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.damagesource.DamageSource;

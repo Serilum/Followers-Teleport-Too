@@ -1,6 +1,6 @@
-package com.natamus.followersteleporttoo;
+package com.serilum.followersteleporttoo;
 
-import com.natamus.followersteleporttoo.config.ConfigHandler;
+import com.serilum.followersteleporttoo.config.ConfigHandler;
 
 public class ModCommon {
 

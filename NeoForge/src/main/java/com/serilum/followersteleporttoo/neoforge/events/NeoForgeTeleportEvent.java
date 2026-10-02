@@ -1,6 +1,6 @@
-package com.natamus.followersteleporttoo.neoforge.events;
+package com.serilum.followersteleporttoo.neoforge.events;
 
-import com.natamus.followersteleporttoo.events.TeleportEvent;
+import com.serilum.followersteleporttoo.events.TeleportEvent;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.neoforged.bus.api.EventPriority;

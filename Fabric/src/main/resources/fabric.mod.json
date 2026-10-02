@@ -1,11 +1,11 @@
 {
   "schemaVersion": 1,
   "id": "followersteleporttoo",
-  "version": "2.8",
+  "version": "2.9",
 
   "name": "Followers Teleport Too",
   "description": "Whenever a player is teleported via a command, their pets will be teleported alongside them.",
-  "authors": [ "Rick South" ],
+  "authors": [ "Serilum" ],
   "contact": {
     "homepage": "https://serilum.com/mod/followers-teleport-too",
     "sources": "https://github.com/Serilum/Followers-Teleport-Too",
@@ -16,14 +16,14 @@
   "icon": "icon.png",
 
   "environment": "*",
-  "entrypoints": { "main": [ "com.natamus.followersteleporttoo.ModFabric" ], "modmenu": [ "com.natamus.followersteleporttoo.fabric.config.IntegrateModMenu" ] },
+  "entrypoints": { "main": [ "com.serilum.followersteleporttoo.ModFabric" ], "modmenu": [ "com.serilum.followersteleporttoo.fabric.config.IntegrateModMenu" ] },
 
   "depends": {
     "fabricloader": ">=0.18.0",
     "fabric-api": "*",
     "minecraft": ">=26.3",
     "java": ">=25",
-    "collective": ">=8.39"
+    "collective": ">=8.40"
   },
 
   "custom": {
@@ -38,7 +38,7 @@
 	  " ",
 	  "Thank you very much to my Membership sponsors for supporting the development of this mod!",
 	  " ",
-	  "If you would like to contribute too, check out https://serilum.com/donate.",
+	  "If you would like to contribute too, check out https://serilum.com/donate",
 	  " ",
 	  "Membership sponsors:",
 	  " Andrean Olgo",

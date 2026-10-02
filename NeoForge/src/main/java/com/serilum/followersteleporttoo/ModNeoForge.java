@@ -1,10 +1,10 @@
-package com.natamus.followersteleporttoo;
+package com.serilum.followersteleporttoo;
 
 import com.natamus.collective.check.RegisterMod;
 import com.natamus.collective.check.ShouldLoadCheck;
-import com.natamus.followersteleporttoo.neoforge.config.IntegrateNeoForgeConfig;
-import com.natamus.followersteleporttoo.neoforge.events.NeoForgeTeleportEvent;
-import com.natamus.followersteleporttoo.util.Reference;
+import com.serilum.followersteleporttoo.neoforge.config.IntegrateNeoForgeConfig;
+import com.serilum.followersteleporttoo.neoforge.events.NeoForgeTeleportEvent;
+import com.serilum.followersteleporttoo.util.Reference;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.ModLoadingContext;
