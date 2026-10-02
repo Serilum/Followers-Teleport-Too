@@ -1,7 +1,7 @@
-package com.natamus.followersteleporttoo.config;
+package com.serilum.followersteleporttoo.config;
 
 import com.natamus.collective.config.DuskConfig;
-import com.natamus.followersteleporttoo.util.Reference;
+import com.serilum.followersteleporttoo.util.Reference;
 
 import java.util.Arrays;
 import java.util.HashMap;

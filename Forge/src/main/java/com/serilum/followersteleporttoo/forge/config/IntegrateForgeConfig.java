@@ -1,7 +1,7 @@
-package com.natamus.followersteleporttoo.forge.config;
+package com.serilum.followersteleporttoo.forge.config;
 
 import com.natamus.collective.config.DuskConfig;
-import com.natamus.followersteleporttoo.util.Reference;
+import com.serilum.followersteleporttoo.util.Reference;
 import net.minecraftforge.client.ConfigScreenHandler;
 import net.minecraftforge.fml.ModLoadingContext;
 

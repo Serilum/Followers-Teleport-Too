@@ -1,10 +1,10 @@
-package com.natamus.followersteleporttoo;
+package com.serilum.followersteleporttoo;
 
 import com.natamus.collective.check.RegisterMod;
 import com.natamus.collective.check.ShouldLoadCheck;
-import com.natamus.followersteleporttoo.forge.config.IntegrateForgeConfig;
-import com.natamus.followersteleporttoo.forge.events.ForgeTeleportEvent;
-import com.natamus.followersteleporttoo.util.Reference;
+import com.serilum.followersteleporttoo.forge.config.IntegrateForgeConfig;
+import com.serilum.followersteleporttoo.forge.events.ForgeTeleportEvent;
+import com.serilum.followersteleporttoo.util.Reference;
 import net.minecraftforge.eventbus.api.bus.BusGroup;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
@@ -30,7 +30,7 @@ public class ModForge {
 	}
 
 	private void loadComplete(final FMLLoadCompleteEvent event) {
-    	ForgeTeleportEvent.registerEventsInBus();
+		ForgeTeleportEvent.registerEventsInBus();
 	}
 
 	private static void setGlobalConstants() {
