@@ -1,10 +1,10 @@
-package com.natamus.followersteleporttoo;
+package com.serilum.followersteleporttoo;
 
 import com.natamus.collective.check.RegisterMod;
 import com.natamus.collective.check.ShouldLoadCheck;
 import com.natamus.collective.fabric.callbacks.CollectiveEntityEvents;
-import com.natamus.followersteleporttoo.events.TeleportEvent;
-import com.natamus.followersteleporttoo.util.Reference;
+import com.serilum.followersteleporttoo.events.TeleportEvent;
+import com.serilum.followersteleporttoo.util.Reference;
 import net.fabricmc.api.ModInitializer;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;

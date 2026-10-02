@@ -1,6 +1,6 @@
-package com.natamus.followersteleporttoo.forge.events;
+package com.serilum.followersteleporttoo.forge.events;
 
-import com.natamus.followersteleporttoo.events.TeleportEvent;
+import com.serilum.followersteleporttoo.events.TeleportEvent;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraftforge.event.entity.EntityTeleportEvent;
