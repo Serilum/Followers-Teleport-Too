@@ -2,51 +2,169 @@ package com.serilum.followersteleporttoo.events;
 
 import com.serilum.followersteleporttoo.config.ConfigHandler;
 import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.resources.Identifier;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.util.ProblemReporter;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.TamableAnimal;
-import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.ai.memory.MemoryModuleType;
+import net.minecraft.world.entity.animal.allay.Allay;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.storage.TagValueOutput;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.UUID;
+import java.util.*;
 
 public class TeleportEvent {
 	private static final HashMap<UUID, Date> teleportedfollowers = new HashMap<UUID, Date>();
+	private static final HashMap<UUID, List<Mob>> followersAwaitingOwner = new HashMap<>();
+	private static final HashMap<UUID, Mob> mountsAwaitingRider = new HashMap<>();
 
-	public static void onPlayerTeleport(Level world, Entity entity, double targetX, double targetY, double targetZ) {
-		if (world.isClientSide()) {
+	public static void onPlayerTeleportStart(ServerPlayer player) {
+		if (player.isSpectator()) {
 			return;
 		}
 
-		if (!(entity instanceof Player)) {
-			return;
+		if (ConfigHandler.mountTeleportsToo && player.getVehicle() instanceof Mob) {
+			mountsAwaitingRider.put(player.getUUID(), (Mob)player.getVehicle());
 		}
 
-		ServerPlayer player = (ServerPlayer)entity;
+		List<String> typesThatStayBehind = new ArrayList<>();
+		for (String rawType : ConfigHandler.followerTypesThatStayBehind.split(",")) {
+			typesThatStayBehind.add(rawType.strip());
+		}
+
 		BlockPos ppos = player.blockPosition();
-		Vec3 targetvec = new Vec3(targetX, targetY, targetZ);
+		int radius = ConfigHandler.followerSearchRadiusInBlocks;
 
-		for (Entity ea : world.getEntities(null, new AABB(ppos.getX()-50, ppos.getY()-50, ppos.getZ()-50, ppos.getX()+50, ppos.getY()+50, ppos.getZ()+50))) {
-			if (ea instanceof TamableAnimal) {
-				TamableAnimal ta = (TamableAnimal)ea;
-				if (ta.isTame()) {
-					if (!ta.isInSittingPose()) {
-						if (ta.isOwnedBy(player)) {
-							ta.teleportTo(targetvec.x, targetvec.y, targetvec.z);
+		List<Mob> followers = new ArrayList<>();
+		for (Entity ea : player.level().getEntities(null, new AABB(ppos.getX()-radius, ppos.getY()-radius, ppos.getZ()-radius, ppos.getX()+radius, ppos.getY()+radius, ppos.getZ()+radius))) {
+			if (!(ea instanceof Mob)) {
+				continue;
+			}
 
-							if (ConfigHandler.disableFollowerDamageAfterTeleport) {
-								teleportedfollowers.put(ta.getUUID(), new Date());
-							}
-						}
-					}
+			Mob mob = (Mob)ea;
+			if (mob.isLeashed() || mob.equals(player.getVehicle())) {
+				continue;
+			}
+
+			Identifier entityTypeKey = EntityType.getKey(mob.getType());
+			if (typesThatStayBehind.contains(entityTypeKey.toString())) {
+				continue;
+			}
+
+			if (mob instanceof TamableAnimal) {
+				if (!isFollowingOwner((TamableAnimal)mob, player, entityTypeKey.getNamespace())) {
+					continue;
+				}
+			}
+			else if (mob instanceof Allay) {
+				if (!ConfigHandler.allaysTeleportToo || !isLikedBy((Allay)mob, player)) {
+					continue;
+				}
+			}
+			else {
+				continue;
+			}
+
+			followers.add(mob);
+		}
+
+		followersAwaitingOwner.put(player.getUUID(), followers);
+	}
+
+	private static boolean isFollowingOwner(TamableAnimal ta, ServerPlayer player, String namespace) {
+		if (!ta.isTame() || !ta.isOwnedBy(player)) {
+			return false;
+		}
+
+		if (ta.isInSittingPose() || ta.isOrderedToSit()) {
+			return false;
+		}
+
+		if (namespace.equals("alexsmobs") || namespace.equals("alexscaves")) {
+			return isSetToFollow(ta, namespace);
+		}
+		return true;
+	}
+
+	private static boolean isSetToFollow(TamableAnimal ta, String namespace) {
+		int followCommand = 1;
+		if (namespace.equals("alexscaves")) {
+			followCommand = 2;
+		}
+
+		TagValueOutput output = TagValueOutput.createWithContext(ProblemReporter.DISCARDING, ta.registryAccess());
+		ta.saveWithoutId(output);
+		CompoundTag entityData = output.buildResult();
+
+		for (String key : entityData.keySet()) {
+			if (key.endsWith("Sitting") && entityData.getBooleanOr(key, false)) {
+				return false;
+			}
+			if (key.endsWith("Command") && entityData.getIntOr(key, followCommand) != followCommand) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	private static boolean isLikedBy(Allay allay, ServerPlayer player) {
+		Optional<UUID> likedPlayer = allay.getBrain().getMemory(MemoryModuleType.LIKED_PLAYER);
+		return likedPlayer.isPresent() && likedPlayer.get().equals(player.getUUID());
+	}
+
+	public static void onPlayerTeleportEnd(ServerPlayer player, boolean teleported) {
+		List<Mob> followers = followersAwaitingOwner.remove(player.getUUID());
+		Mob mount = mountsAwaitingRider.remove(player.getUUID());
+		if (!teleported) {
+			return;
+		}
+
+		ServerLevel targetLevel = player.level();
+		Vec3 targetvec = player.position();
+
+		if (mount != null && !mount.isRemoved()) {
+			if (teleportFollower(mount, targetLevel, targetvec)) {
+				Entity teleportedMount = targetLevel.getEntity(mount.getUUID());
+				if (teleportedMount != null) {
+					player.startRiding(teleportedMount);
 				}
 			}
 		}
+
+		if (followers == null) {
+			return;
+		}
+
+		for (Mob follower : followers) {
+			if (follower.isRemoved()) {
+				continue;
+			}
+
+			if (!ConfigHandler.followersFollowIntoOtherDimensions && !follower.level().equals(targetLevel)) {
+				continue;
+			}
+
+			teleportFollower(follower, targetLevel, targetvec);
+		}
+	}
+
+	private static boolean teleportFollower(Mob follower, ServerLevel targetLevel, Vec3 targetvec) {
+		if (!follower.teleportTo(targetLevel, targetvec.x, targetvec.y, targetvec.z, Set.of(), follower.getYRot(), follower.getXRot(), false)) {
+			return false;
+		}
+
+		if (ConfigHandler.disableFollowerDamageAfterTeleport) {
+			teleportedfollowers.put(follower.getUUID(), new Date());
+		}
+		return true;
 	}
 
 	public static float onFollowerDamage(Level level, Entity entity, DamageSource damageSource, float damageAmount) {
@@ -55,7 +173,7 @@ public class TeleportEvent {
 		}
 
 		if (teleportedfollowers.size() > 0) {
-			if (!(entity instanceof TamableAnimal)) {
+			if (!(entity instanceof Mob)) {
 				return damageAmount;
 			}
 
