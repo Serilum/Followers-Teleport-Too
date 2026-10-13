@@ -4,7 +4,7 @@
   "package": "com.serilum.followersteleporttoo.mixin",
   "compatibilityLevel": "JAVA_21",
   "mixins": [
-
+    "ServerPlayerMixin"
   ],
   "client": [
   
