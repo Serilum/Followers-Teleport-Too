@@ -1,11 +1,8 @@
 package com.serilum.followersteleporttoo.forge.events;
 
 import com.serilum.followersteleporttoo.events.TeleportEvent;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraftforge.event.entity.EntityTeleportEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
-import net.minecraftforge.eventbus.api.listener.Priority;
 import net.minecraftforge.eventbus.api.bus.BusGroup;
 import net.minecraftforge.eventbus.api.listener.SubscribeEvent;
 
@@ -16,21 +13,15 @@ public class ForgeTeleportEvent {
 		BusGroup.DEFAULT.register(MethodHandles.lookup(), ForgeTeleportEvent.class);
 	}
 
-	@SubscribeEvent(priority = Priority.MONITOR)
-	public static void onPlayerTeleport(EntityTeleportEvent.TeleportCommand e, boolean wasCancelled) {
-		if (wasCancelled) {
-			return;
-		}
-
-		Entity entity = e.getEntity();
-		TeleportEvent.onPlayerTeleport(entity.level(), entity, e.getTargetX(), e.getTargetY(), e.getTargetZ());
-	}
-
 	@SubscribeEvent
 	public static boolean onFollowerDamage(LivingHurtEvent e) {
 		LivingEntity livingEntity = e.getEntity();
+		float damageAmount = e.getAmount();
+		if (damageAmount <= 0F) {
+			return false;
+		}
 
-		if (TeleportEvent.onFollowerDamage(livingEntity.level(), livingEntity, e.getSource(), e.getAmount()) == 0F) {
+		if (TeleportEvent.onFollowerDamage(livingEntity.level(), livingEntity, e.getSource(), damageAmount) == 0F) {
 			e.setAmount(0F);
 			return true;
 		}
