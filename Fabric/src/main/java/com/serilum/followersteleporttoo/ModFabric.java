@@ -27,10 +27,6 @@ public class ModFabric implements ModInitializer {
 	}
 
 	private void loadEvents() {
-		CollectiveEntityEvents.ON_ENTITY_TELEPORT_COMMAND.register((Level world, Entity entity, double targetX, double targetY, double targetZ) -> {
-			TeleportEvent.onPlayerTeleport(world, entity, targetX, targetY, targetZ);
-			return true;
-		});
 		CollectiveEntityEvents.ON_LIVING_DAMAGE_CALC.register((Level world, Entity entity, DamageSource damageSource, float damageAmount) -> {
 			return TeleportEvent.onFollowerDamage(world, entity, damageSource, damageAmount);
 		});
