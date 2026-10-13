@@ -10,7 +10,9 @@ import java.lang.invoke.MethodHandles;
 
 public class ForgeTeleportEvent {
 	public static void registerEventsInBus() {
-		BusGroup.DEFAULT.register(MethodHandles.lookup(), ForgeTeleportEvent.class);
+		// BusGroup.DEFAULT.register(MethodHandles.lookup(), ForgeTeleportEvent.class);
+
+		LivingHurtEvent.BUS.addListener(ForgeTeleportEvent::onFollowerDamage);
 	}
 
 	@SubscribeEvent

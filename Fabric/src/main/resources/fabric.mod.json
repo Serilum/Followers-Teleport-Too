@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "id": "followersteleporttoo",
-  "version": "3.0",
+  "version": "3.1",
 
   "name": "Followers Teleport Too",
   "description": "Whenever a player is teleported via a command, their pets will be teleported alongside them.",
