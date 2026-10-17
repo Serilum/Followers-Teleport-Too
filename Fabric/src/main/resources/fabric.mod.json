@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "id": "followersteleporttoo",
-  "version": "3.0",
+  "version": "3.2",
 
   "name": "Followers Teleport Too",
   "description": "Whenever a player is teleported via a command, their pets will be teleported alongside them.",
@@ -26,13 +26,13 @@
     "fabric": "*",
     "minecraft": ">=1.21",
     "java": ">=21",
-    "collective": ">=8.47"
+    "collective": ">=8.57"
   },
 
   "custom": {
     "modmenu": {
       "links": {
-        "Donate <3" : "https://serilum.com/donate"
+        "❤ Patreon" : "https://link.serilum.com/patreon"
       }
     }
   },
