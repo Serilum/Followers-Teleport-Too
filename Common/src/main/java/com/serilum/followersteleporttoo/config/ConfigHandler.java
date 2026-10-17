@@ -13,7 +13,7 @@ public class ConfigHandler extends DuskConfig {
 	@Entry public static boolean disableFollowerDamageAfterTeleport = true;
 	@Entry(min = 0, max = 86400) public static int durationInSecondsDamageShouldBeDisabled = 20;
 	@Entry(min = 1, max = 256) public static int followerSearchRadiusInBlocks = 50;
-	@Entry public static String followerTypesThatStayBehind = "minecraft:nautilus";
+	@Entry(registry = "entity_type", filter = "animals") public static String followerTypesThatStayBehind = "minecraft:nautilus";
 	@Entry public static boolean followersFollowIntoOtherDimensions = true;
 	@Entry public static boolean allaysTeleportToo = true;
 	@Entry public static boolean mountTeleportsToo = true;

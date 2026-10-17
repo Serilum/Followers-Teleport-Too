@@ -1,5 +1,6 @@
 package com.serilum.followersteleporttoo.events;
 
+import com.natamus.collective.functions.ConfigFunctions;
 import com.serilum.followersteleporttoo.config.ConfigHandler;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
@@ -33,11 +34,6 @@ public class TeleportEvent {
 			mountsAwaitingRider.put(player.getUUID(), (Mob)player.getVehicle());
 		}
 
-		List<String> typesThatStayBehind = new ArrayList<>();
-		for (String rawType : ConfigHandler.followerTypesThatStayBehind.split(",")) {
-			typesThatStayBehind.add(rawType.strip());
-		}
-
 		BlockPos ppos = player.blockPosition();
 		int radius = ConfigHandler.followerSearchRadiusInBlocks;
 
@@ -53,7 +49,7 @@ public class TeleportEvent {
 			}
 
 			ResourceLocation entityTypeKey = EntityType.getKey(mob.getType());
-			if (typesThatStayBehind.contains(entityTypeKey.toString())) {
+			if (ConfigFunctions.isInIdList(ConfigHandler.followerTypesThatStayBehind, entityTypeKey.toString())) {
 				continue;
 			}
 
